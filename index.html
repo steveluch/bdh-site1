@@ -931,10 +931,17 @@ In GitHub, find the entire const listings = [ block down to the closing ]; and r
       });
 
       renderResults(results);
-
       document.getElementById('results-section').classList.add('visible');
       document.getElementById('results-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      if (results.length === 0) {
+        document.getElementById('cards-grid').innerHTML = `<p style="color:var(--gray); font-size:0.9rem; grid-column:1/-1;">No programs found for that search. Try clearing a filter.</p>`;
+      }
     }
+Make both those changes, commit, and your listings will show on load and the search will work properly. Let me know what you see after that.
+
+
+
 
     function renderResults(results) {
       const grid  = document.getElementById('cards-grid');
@@ -1008,7 +1015,8 @@ In GitHub, find the entire const listings = [ block down to the closing ]; and r
 
     // Auto-run on load to show all listings
     window.addEventListener('load', () => {
-      runSearch();
+      renderResults(listings);
+      document.getElementById('results-section').classList.add('visible');
     });
   </script>
 </body>
