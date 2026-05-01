@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>From The Sideline</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black: #080808;
+      --black2: #131313;
+      --black3: #1c1c1c;
+      --orange: #F4611A;
+      --orange-hot: #FF7A2F;
+      --white: #F5F0EB;
+      --gray: #777;
+    }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Background court circle */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px; height: 600px;
+      border: 1px solid rgba(244,97,26,0.06);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 300px; height: 300px;
+      border: 1px solid rgba(244,97,26,0.04);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Avatar */
+    .avatar {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: var(--black3);
+      border: 2px solid var(--orange);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .avatar-inner {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 1.6rem;
+      color: var(--orange);
+      letter-spacing: -0.02em;
+    }
+
+    /* Pulse ring */
+    .avatar::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1px solid rgba(244,97,26,0.3);
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.08); opacity: 0; }
+    }
+
+    .name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      text-align: center;
+      margin-bottom: 6px;
+    }
+
+    .name span { color: var(--orange); }
+
+    .bio {
+      font-size: 0.82rem;
+      color: var(--gray);
+      text-align: center;
+      line-height: 1.55;
+      max-width: 300px;
+      margin-bottom: 32px;
+    }
+
+    .bio strong { color: var(--white); font-weight: 500; }
+
+    /* Divider label */
+    .section-label {
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 12px;
+      align-self: flex-start;
+      padding-left: 2px;
+    }
+
+    /* Links */
+    .links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .link-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      padding: 16px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      color: var(--white);
+      background: var(--black2);
+      border: 1px solid rgba(255,255,255,0.07);
+      transition: border-color 0.2s, transform 0.15s, background 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .link-btn::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--orange);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.2s;
+    }
+
+    .link-btn:hover {
+      border-color: rgba(244,97,26,0.35);
+      transform: translateX(4px);
+      background: var(--black3);
+    }
+
+    .link-btn:hover::before { transform: scaleY(1); }
+
+    .link-btn.featured {
+      background: var(--orange);
+      border-color: var(--orange);
+      color: var(--black);
+    }
+
+    .link-btn.featured::before { background: rgba(0,0,0,0.2); }
+    .link-btn.featured:hover { background: var(--orange-hot); border-color: var(--orange-hot); transform: translateX(4px); }
+
+    .link-icon {
+      width: 36px; height: 36px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.1rem;
+    }
+
+    .link-btn.featured .link-icon {
+      background: rgba(0,0,0,0.15);
+    }
+
+    .link-icon.yt { background: rgba(255,0,0,0.12); }
+    .link-icon.ig { background: rgba(225,48,108,0.12); }
+    .link-icon.tt { background: rgba(255,255,255,0.06); }
+    .link-icon.bdh { background: rgba(244,97,26,0.15); }
+    .link-icon.pdf { background: rgba(244,97,26,0.1); }
+
+    .link-text { flex: 1; }
+
+    .link-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: block;
+      line-height: 1.2;
+    }
+
+    .link-sub {
+      font-size: 0.72rem;
+      opacity: 0.6;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .link-btn.featured .link-sub { opacity: 0.7; }
+
+    .link-arrow {
+      font-size: 0.9rem;
+      opacity: 0.4;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .link-btn:hover .link-arrow { opacity: 1; transform: translateX(3px); }
+
+    /* Coming soon badge */
+    .badge {
+      font-size: 0.58rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 2px;
+      background: rgba(244,97,26,0.15);
+      color: var(--orange);
+      border: 1px solid rgba(244,97,26,0.25);
+    }
+
+    /* Footer */
+    .footer-text {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.15);
+      text-align: center;
+      margin-top: 8px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /* Entrance animations */
+    .avatar { animation: fadeDown 0.5s 0.05s both; }
+    .name { animation: fadeDown 0.5s 0.1s both; }
+    .bio { animation: fadeDown 0.5s 0.15s both; }
+    .section-label { animation: fadeDown 0.4s 0.2s both; }
+    .links .link-btn:nth-child(1) { animation: fadeUp 0.4s 0.25s both; }
+    .links .link-btn:nth-child(2) { animation: fadeUp 0.4s 0.32s both; }
+    .links .link-btn:nth-child(3) { animation: fadeUp 0.4s 0.39s both; }
+    .links .link-btn:nth-child(4) { animation: fadeUp 0.4s 0.46s both; }
+    .links .link-btn:nth-child(5) { animation: fadeUp 0.4s 0.53s both; }
+
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="avatar">
+      <span class="avatar-inner">FTS</span>
+    </div>
+
+    <div class="name">From The <span>Sideline</span></div>
+    <p class="bio">
+      Basketball breakdowns, IQ content & player development.<br>
+      <strong>Find local trainers & AAU programs</strong> at Basketball Development Hub.
+    </p>
+
+    <div class="section-label">Find Us</div>
+
+    <div class="links">
+
+      <!-- BDH — Featured -->
+      <a href="https://www.basketballdevelopmenthub.com" target="_blank" class="link-btn featured">
+        <div class="link-icon">🏀</div>
+        <div class="link-text">
+          <span class="link-title">Basketball Development Hub</span>
+          <span class="link-sub">Find local trainers & AAU programs</span>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+
+      <!-- YouTube -->
+      <a href="https://www.youtube.com/@FromTheSideline" target="_blank" class="link-btn">
+        <div class="link-icon yt">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#ff4444"><path d="M23.5 6.2s-.2-1.7-1-2.4c-.9-1-1.9-1-2.4-1.1C17.2 2.5 12 2.5 12 2.5s-5.2 0-8.1.2c-.5.1-1.5.1-2.4 1.1-.7.7-1 2.4-1 2.4S.2 8.1.2 10v1.8c0 1.9.3 3.8.3 3.8s.2 1.7 1 2.4c.9 1 2.1.9 2.6 1C5.8 19.2 12 19.2 12 19.2s5.2 0 8.1-.2c.5-.1 1.5-.1 2.4-1.1.7-.7 1-2.4 1-2.4s.3-1.9.3-3.8V10c0-1.9-.3-3.8-.3-3.8zM9.7 14.5V8.1l6.6 3.2-6.6 3.2z"/></svg>
+        </div>
+        <div class="link-text">
+          <span class="link-title">YouTube</span>
+          <span class="link-sub">@FromTheSideline</span>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/fromthesidelinehoops" target="_blank" class="link-btn">
+        <div class="link-icon ig">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="#e1306c" stroke="none"/></svg>
+        </div>
+        <div class="link-text">
+          <span class="link-title">Instagram</span>
+          <span class="link-sub">@fromthesidelinehoops</span>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+
+      <!-- TikTok -->
+      <a href="https://www.tiktok.com/@from.the.sideline1" target="_blank" class="link-btn">
+        <div class="link-icon tt">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="#ffffff"><path d="M19.6 3.8a5.5 5.5 0 0 1-3.8-3.8h-3.4v13.6a2.4 2.4 0 1 1-2.4-2.4c.2 0 .5 0 .7.1V7.8a6 6 0 0 0-.7 0 5.8 5.8 0 1 0 5.8 5.8V8.2a8.8 8.8 0 0 0 5.1 1.6V6.4a5.5 5.5 0 0 1-1.3-.6z"/></svg>
+        </div>
+        <div class="link-text">
+          <span class="link-title">TikTok</span>
+          <span class="link-sub">@from.the.sideline1</span>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+
+      <!-- PDF Coming Soon -->
+      <a href="#" class="link-btn" onclick="return false;" style="cursor:default; opacity:0.6;">
+        <div class="link-icon pdf">📋</div>
+        <div class="link-text">
+          <span class="link-title">PnR Breakdown PDF</span>
+          <span class="link-sub">Free guide dropping soon</span>
+        </div>
+        <span class="badge">Coming Soon</span>
+      </a>
+
+    </div>
+
+    <p class="footer-text">Basketball Development Hub · From The Sideline</p>
+
+  </div>
+</body>
+</html>
